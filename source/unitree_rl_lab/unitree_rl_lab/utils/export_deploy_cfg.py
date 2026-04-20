@@ -74,10 +74,11 @@ def export_deploy_cfg(env: ManagerBasedRLEnv, log_dir):
             term_cfg.pop(key, None)
         cfg["actions"][action_name] = term_cfg
 
-        if action_term._joint_ids == slice(None):
+        joint_ids = getattr(action_term, "_joint_ids", None)
+        if joint_ids == slice(None):
             cfg["actions"][action_name]["joint_ids"] = None
         else:
-            cfg["actions"][action_name]["joint_ids"] = action_term._joint_ids
+            cfg["actions"][action_name]["joint_ids"] = joint_ids
 
     # --- observations ---
     obs_names = env.observation_manager.active_terms["policy"]

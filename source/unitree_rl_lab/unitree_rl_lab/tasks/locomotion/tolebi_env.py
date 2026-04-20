@@ -165,8 +165,10 @@ class TolebiManagerBasedRLEnv(ManagerBasedRLEnv):
 
         with torch.inference_mode(False):
             self._tolebi_status_estimator.train()
-            probs_train = self._tolebi_status_estimator(self._tolebi_estimator_history)
-            loss = self._tolebi_status_loss(probs_train, self.tolebi_status_target.detach())
+            history_train = self._tolebi_estimator_history.detach().clone()
+            status_target_train = self.tolebi_status_target.detach().clone()
+            probs_train = self._tolebi_status_estimator(history_train)
+            loss = self._tolebi_status_loss(probs_train, status_target_train)
             self._tolebi_status_optimizer.zero_grad(set_to_none=True)
             loss.backward()
             torch.nn.utils.clip_grad_norm_(self._tolebi_status_estimator.parameters(), 1.0)
