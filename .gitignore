@@ -86,3 +86,6 @@ datasets
 .claude/todos/
 .claude/projects/
 .claude/statsig/
+
+# Reference
+reference/
