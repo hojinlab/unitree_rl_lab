@@ -180,6 +180,7 @@ class ActionsCfg:
     """TOLEBI actions: 12 effort + 1 phase modulation."""
 
     LegJointEffortAction = mdp.FaultTolerantJointEffortActionCfg(
+        class_type=mdp.FaultTolerantJointEffortAction,
         asset_name="robot",
         joint_names=mdp.TOLEBI_LEG_JOINT_NAMES,
         preserve_order=True,
@@ -188,6 +189,7 @@ class ActionsCfg:
     )
 
     PhaseModulationAction = mdp.PhaseModulationActionCfg(
+        class_type=mdp.PhaseModulationAction,
         asset_name="robot",
         scale=1.0,
         max_delta_phase=0.12,
