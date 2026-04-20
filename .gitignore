@@ -76,3 +76,13 @@ datasets
 
 # Codex
 /.codex
+
+# Claude Code local settings
+.claude/settings.local.json
+.claude/.credentials.json
+.claude/cache/
+.claude/logs/
+.claude/memory/
+.claude/todos/
+.claude/projects/
+.claude/statsig/
