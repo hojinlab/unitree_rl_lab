@@ -92,3 +92,6 @@ References/
 references/
 Reference/
 reference/
+
+# Local environment variables (do not commit)
+.env

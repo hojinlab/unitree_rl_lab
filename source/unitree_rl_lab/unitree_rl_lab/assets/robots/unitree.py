@@ -17,8 +17,11 @@ from isaaclab.utils import configclass
 
 from unitree_rl_lab.assets.robots import unitree_actuators
 
-UNITREE_MODEL_DIR = "path/to/unitree_model"  # Replace with the actual path to your unitree_model directory
-UNITREE_ROS_DIR = "path/to/unitree_ros"  # Replace with the actual path to your unitree_ros package
+from dotenv import load_dotenv
+
+load_dotenv()
+UNITREE_MODEL_DIR = os.environ.get("UNITREE_MODEL_DIR", "")
+UNITREE_ROS_DIR = os.environ.get("UNITREE_ROS_DIR", "")
 
 
 @configclass
@@ -43,7 +46,9 @@ class UnitreeUsdFileCfg(sim_utils.UsdFileCfg):
         max_depenetration_velocity=1.0,
     )
     articulation_props = sim_utils.ArticulationRootPropertiesCfg(
-        enabled_self_collisions=True, solver_position_iteration_count=8, solver_velocity_iteration_count=4
+        enabled_self_collisions=True,
+        solver_position_iteration_count=8,
+        solver_velocity_iteration_count=4,
     )
 
 
@@ -53,7 +58,9 @@ class UnitreeUrdfFileCfg(sim_utils.UrdfFileCfg):
     activate_contact_sensors: bool = True
     replace_cylinders_with_capsules = True
     joint_drive = sim_utils.UrdfConverterCfg.JointDriveCfg(
-        gains=sim_utils.UrdfConverterCfg.JointDriveCfg.PDGainsCfg(stiffness=0, damping=0)
+        gains=sim_utils.UrdfConverterCfg.JointDriveCfg.PDGainsCfg(
+            stiffness=0, damping=0
+        )
     )
     articulation_props = sim_utils.ArticulationRootPropertiesCfg(
         enabled_self_collisions=True,
@@ -120,10 +127,18 @@ UNITREE_GO2_CFG = UnitreeArticulationCfg(
     },
     # fmt: off
     joint_sdk_names=[
-        "FR_hip_joint", "FR_thigh_joint", "FR_calf_joint",
-        "FL_hip_joint", "FL_thigh_joint", "FL_calf_joint",
-        "RR_hip_joint", "RR_thigh_joint", "RR_calf_joint",
-        "RL_hip_joint", "RL_thigh_joint", "RL_calf_joint"
+        "FR_hip_joint",
+        "FR_thigh_joint",
+        "FR_calf_joint",
+        "FL_hip_joint",
+        "FL_thigh_joint",
+        "FL_calf_joint",
+        "RR_hip_joint",
+        "RR_thigh_joint",
+        "RR_calf_joint",
+        "RL_hip_joint",
+        "RL_thigh_joint",
+        "RL_calf_joint",
     ],
     # fmt: on
 )
@@ -162,11 +177,22 @@ UNITREE_GO2W_CFG = UnitreeArticulationCfg(
     },
     # fmt: off
     joint_sdk_names=[
-        "FR_hip_joint", "FR_thigh_joint", "FR_calf_joint",
-        "FL_hip_joint", "FL_thigh_joint", "FL_calf_joint",
-        "RR_hip_joint", "RR_thigh_joint", "RR_calf_joint",
-        "RL_hip_joint", "RL_thigh_joint", "RL_calf_joint",
-        "FR_foot_joint", "FL_foot_joint", "RR_foot_joint", "RL_foot_joint"
+        "FR_hip_joint",
+        "FR_thigh_joint",
+        "FR_calf_joint",
+        "FL_hip_joint",
+        "FL_thigh_joint",
+        "FL_calf_joint",
+        "RR_hip_joint",
+        "RR_thigh_joint",
+        "RR_calf_joint",
+        "RL_hip_joint",
+        "RL_thigh_joint",
+        "RL_calf_joint",
+        "FR_foot_joint",
+        "FL_foot_joint",
+        "RR_foot_joint",
+        "RL_foot_joint",
     ],
     # fmt: on
 )
@@ -230,7 +256,11 @@ UNITREE_H1_CFG = UnitreeArticulationCfg(
     ),
     actuators={
         "GO2HV-1": IdealPDActuatorCfg(
-            joint_names_expr=[".*ankle.*", ".*_shoulder_pitch_.*", ".*_shoulder_roll_.*"],
+            joint_names_expr=[
+                ".*ankle.*",
+                ".*_shoulder_pitch_.*",
+                ".*_shoulder_roll_.*",
+            ],
             effort_limit=40,
             velocity_limit=9,
             stiffness={
@@ -319,7 +349,11 @@ UNITREE_G1_23DOF_CFG = UnitreeArticulationCfg(
     ),
     actuators={
         "N7520-14.3": ImplicitActuatorCfg(
-            joint_names_expr=[".*_hip_pitch_.*", ".*_hip_yaw_.*", "waist_yaw_joint"],  # 5
+            joint_names_expr=[
+                ".*_hip_pitch_.*",
+                ".*_hip_yaw_.*",
+                "waist_yaw_joint",
+            ],  # 5
             effort_limit_sim=88,
             velocity_limit_sim=32.0,
             stiffness={
@@ -347,7 +381,11 @@ UNITREE_G1_23DOF_CFG = UnitreeArticulationCfg(
             armature=0.01,
         ),
         "N5020-16": ImplicitActuatorCfg(
-            joint_names_expr=[".*_shoulder_.*", ".*_elbow_.*", ".*_wrist_roll_.*"],  # 10
+            joint_names_expr=[
+                ".*_shoulder_.*",
+                ".*_elbow_.*",
+                ".*_wrist_roll_.*",
+            ],  # 10
             effort_limit_sim=25,
             velocity_limit_sim=37,
             stiffness=40.0,
@@ -524,8 +562,12 @@ STIFFNESS_7520_22 = ARMATURE_7520_22 * NATURAL_FREQ**2  # 99.09842777666113
 STIFFNESS_4010 = ARMATURE_4010 * NATURAL_FREQ**2  # 16.77832748089279
 
 DAMPING_5020 = 2.0 * DAMPING_RATIO * ARMATURE_5020 * NATURAL_FREQ  # 0.907222843292423
-DAMPING_7520_14 = 2.0 * DAMPING_RATIO * ARMATURE_7520_14 * NATURAL_FREQ  # 2.5578897650279457
-DAMPING_7520_22 = 2.0 * DAMPING_RATIO * ARMATURE_7520_22 * NATURAL_FREQ  # 6.3088018534966395
+DAMPING_7520_14 = (
+    2.0 * DAMPING_RATIO * ARMATURE_7520_14 * NATURAL_FREQ
+)  # 2.5578897650279457
+DAMPING_7520_22 = (
+    2.0 * DAMPING_RATIO * ARMATURE_7520_22 * NATURAL_FREQ
+)  # 6.3088018534966395
 DAMPING_4010 = 2.0 * DAMPING_RATIO * ARMATURE_4010 * NATURAL_FREQ  # 1.06814150219
 
 UNITREE_G1_29DOF_MIMIC_CFG = UnitreeArticulationCfg(
