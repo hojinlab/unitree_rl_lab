@@ -10,14 +10,14 @@ Reference: https://github.com/unitreerobotics/unitree_ros
 
 import os
 
+from dotenv import load_dotenv
+
 import isaaclab.sim as sim_utils
 from isaaclab.actuators import IdealPDActuatorCfg, ImplicitActuatorCfg
 from isaaclab.assets.articulation import ArticulationCfg
 from isaaclab.utils import configclass
 
 from unitree_rl_lab.assets.robots import unitree_actuators
-
-from dotenv import load_dotenv
 
 load_dotenv()
 UNITREE_MODEL_DIR = os.environ.get("UNITREE_MODEL_DIR", "")
@@ -58,9 +58,7 @@ class UnitreeUrdfFileCfg(sim_utils.UrdfFileCfg):
     activate_contact_sensors: bool = True
     replace_cylinders_with_capsules = True
     joint_drive = sim_utils.UrdfConverterCfg.JointDriveCfg(
-        gains=sim_utils.UrdfConverterCfg.JointDriveCfg.PDGainsCfg(
-            stiffness=0, damping=0
-        )
+        gains=sim_utils.UrdfConverterCfg.JointDriveCfg.PDGainsCfg(stiffness=0, damping=0)
     )
     articulation_props = sim_utils.ArticulationRootPropertiesCfg(
         enabled_self_collisions=True,
@@ -562,12 +560,8 @@ STIFFNESS_7520_22 = ARMATURE_7520_22 * NATURAL_FREQ**2  # 99.09842777666113
 STIFFNESS_4010 = ARMATURE_4010 * NATURAL_FREQ**2  # 16.77832748089279
 
 DAMPING_5020 = 2.0 * DAMPING_RATIO * ARMATURE_5020 * NATURAL_FREQ  # 0.907222843292423
-DAMPING_7520_14 = (
-    2.0 * DAMPING_RATIO * ARMATURE_7520_14 * NATURAL_FREQ
-)  # 2.5578897650279457
-DAMPING_7520_22 = (
-    2.0 * DAMPING_RATIO * ARMATURE_7520_22 * NATURAL_FREQ
-)  # 6.3088018534966395
+DAMPING_7520_14 = 2.0 * DAMPING_RATIO * ARMATURE_7520_14 * NATURAL_FREQ  # 2.5578897650279457
+DAMPING_7520_22 = 2.0 * DAMPING_RATIO * ARMATURE_7520_22 * NATURAL_FREQ  # 6.3088018534966395
 DAMPING_4010 = 2.0 * DAMPING_RATIO * ARMATURE_4010 * NATURAL_FREQ  # 1.06814150219
 
 UNITREE_G1_29DOF_MIMIC_CFG = UnitreeArticulationCfg(
